@@ -11,6 +11,9 @@ class AuthController extends Controller
 {
     public function registerView()
     {
+        if (auth()->user()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.register');
     }
 
@@ -38,6 +41,9 @@ class AuthController extends Controller
 
     public function loginView()
     {
+        if (auth()->user()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
@@ -72,8 +78,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        auth()->logout();
         return redirect()->route('login');
     }
 }
