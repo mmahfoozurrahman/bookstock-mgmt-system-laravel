@@ -18,7 +18,11 @@
         </div>
 
         <div class="bg-white glass rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
-            <form class="space-y-6 animate-fadeIn">
+            <form class="space-y-6 animate-fadeIn" method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="my-1">
+                    @include('flash.session')
+                </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
                     <div class="relative">
@@ -29,18 +33,18 @@
                                     d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                             </svg>
                         </div>
-                        <input type="email"
+                        <input type="email" name="email" value="{{ old('email') }}"
                             class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                             placeholder="you@example.com" />
                     </div>
+                    @error('email')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <label class="block text-sm font-semibold text-gray-700">Password</label>
-                        <a href="#"
-                            class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Forgot
-                            password?</a>
                     </div>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -50,16 +54,19 @@
                                     d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                             </svg>
                         </div>
-                        <input type="password"
+                        <input type="password" name="password" value="{{ old('password') }}"
                             class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                             placeholder="••••••••" />
                     </div>
+                    @error('password')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="flex items-center">
-                    <input id="remember-me" name="remember-me" type="checkbox"
+                    <input id="remember" name="remember" type="checkbox" {{ old('remember') ? 'checked' : '' }}
                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-                    <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
                 </div>
 
                 <button type="submit"
@@ -79,7 +86,8 @@
         <div class="text-center text-sm text-gray-600">
             <p>
                 Don't have an account?
-                <a href="./signup.html" class="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">Sign
+                <a href="{{ route('signup') }}"
+                    class="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">Sign
                     up</a>
             </p>
         </div>

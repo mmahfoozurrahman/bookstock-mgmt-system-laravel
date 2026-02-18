@@ -8,6 +8,7 @@ class ProfileController extends Controller
 {
     public function dashboard()
     {
+        //dd('inside profile dashboard');
         return view('profile.dashboard', [
             'title' => 'Dashboard',
             'description' => 'Welcome to your dashboard'

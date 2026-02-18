@@ -17,7 +17,11 @@
         </div>
 
         <div class="bg-white glass rounded-2xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
-            <form class="space-y-6 animate-fadeIn">
+            <form class="space-y-6 animate-fadeIn" method="POST" action="{{ route('signup') }}">
+                @csrf
+                <div class="my-1">
+                    @include('flash.session')
+                </div>
                 <div class="grid grid-cols-1 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
@@ -29,10 +33,15 @@
                                         d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                                 </svg>
                             </div>
-                            <input type="text"
+                            <input type="text" name="name" value="{{ old('name') }}"
                                 class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                                 placeholder="John doe" />
                         </div>
+                        @error('name')
+                            <p class="text-sm text-red-600 mt-1">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
                 </div>
 
@@ -46,10 +55,15 @@
                                     d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
                         </div>
-                        <input type="email"
+                        <input type="email" name="email" value="{{ old('email') }}"
                             class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                             placeholder="you@example.com" />
                     </div>
+                    @error('email')
+                        <p class="text-sm text-red-600 mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <div>
@@ -62,10 +76,15 @@
                                     d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                             </svg>
                         </div>
-                        <input type="password"
+                        <input type="password" name="password" value="{{ old('password') }}"
                             class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                             placeholder="••••••••" />
                     </div>
+                    @error('password')
+                        <p class="text-sm text-red-600 mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <div>
@@ -78,25 +97,39 @@
                                     d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                             </svg>
                         </div>
-                        <input type="password"
+                        <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
                             class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent input-focus transition-all duration-300"
                             placeholder="••••••••" />
                     </div>
+                    @error('password_confirmation')
+                        <p class="text-sm text-red-600 mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
-                <div class="flex items-start">
-                    <div class="flex items-center h-5">
-                        <input id="terms" name="terms" type="checkbox"
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                <div class="flex flex-col">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="terms" name="terms" type="checkbox" {{ old('terms') ? 'checked' : '' }}
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded @error('terms') border-red-500 @enderror" />
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="text-gray-700">I agree to the
+                                <a href="#"
+                                    class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Terms
+                                    and Conditions</a>
+                                and
+                                <a href="#"
+                                    class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Privacy
+                                    Policy</a></label>
+                        </div>
                     </div>
-                    <div class="ml-3 text-sm">
-                        <label for="terms" class="text-gray-700">I agree to the
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Terms
-                                and Conditions</a>
-                            and
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">Privacy
-                                Policy</a></label>
-                    </div>
+                    @error('terms')
+                        <p class="text-sm text-red-600 mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <button type="submit"
@@ -116,7 +149,8 @@
         <div class="text-center text-sm text-gray-600">
             <p>
                 Already have an account?
-                <a href="login.html" class="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">Sign
+                <a href="{{ route('login') }}"
+                    class="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">Sign
                     in</a>
             </p>
         </div>
