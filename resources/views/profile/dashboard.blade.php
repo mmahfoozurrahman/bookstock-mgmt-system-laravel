@@ -12,18 +12,26 @@
                         <div class="flex-shrink-0">
                             <div
                                 class="w-24 h-24 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 flex items-center justify-center text-3xl font-bold text-indigo-600">
-                                AJ
+                            @php 
+                            $name = auth()->user()->name;
+                            $initials = '';
+                            $nameParts = explode(' ', $name);
+                            foreach ($nameParts as $part) {
+                                $initials .= strtoupper(substr($part, 0, 1));
+                            }
+                            echo $initials;
+                            @endphp
                             </div>
                         </div>
                         <div class="mt-4 md:mt-0 md:ml-6 flex-1">
-                            <h3 class="text-xl font-bold text-gray-800">Alex Johnson</h3>
+                            <h3 class="text-xl font-bold text-gray-800">{{ ucwords(auth()->user()->name) }}</h3>
                         </div>
                     </div>
 
                     <div class="mt-8">
                         <div class="p-4 border rounded-lg">
                             <p class="text-gray-500 text-sm">Email</p>
-                            <p class="font-medium">alex.johnson@example.com</p>
+                            <p class="font-medium">{{ auth()->user()->email }}</p>
                         </div>
                     </div>
                 </div>

@@ -30,11 +30,19 @@
                     onclick="toggleDropdown()">
                     <div
                         class="w-9 h-9 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white font-medium text-sm">
-                        AJ
+                        @php 
+                        $name = auth()->user()->name;
+                        $initials = '';
+                        $nameParts = explode(' ', $name);
+                        foreach ($nameParts as $part) {
+                            $initials .= strtoupper(substr($part, 0, 1));
+                        }
+                        echo $initials;
+                        @endphp
                     </div>
                     <div class="hidden md:block text-left">
-                        <p class="text-sm font-medium text-gray-700">Alex Johnson</p>
-                        <p class="text-xs text-gray-500">alex.johnson@example.com</p>
+                        <p class="text-sm font-medium text-gray-700">{{ ucwords(auth()->user()->name) }}</p>
+                        <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-5 h-5 text-gray-400">
@@ -46,10 +54,10 @@
                 <div id="userDropdown"
                     class="dropdown-menu absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border py-2">
                     <div class="px-4 py-3 border-b">
-                        <p class="text-sm font-medium text-gray-900">Alex Johnson</p>
-                        <p class="text-xs text-gray-500 truncate">alex.johnson@example.com</p>
+                        <p class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-gray-500 truncate">{{ auth()->user()->email }}</p>
                     </div>
-                    <a href="./dashboard.html"
+                    <a href="{{ route('dashboard') }}"
                         class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5 text-gray-400">
@@ -58,7 +66,7 @@
                         </svg>
                         <span>My Profile</span>
                     </a>
-                    <a href="./edit-profile.html"
+                    <a href="{{ route('edit-profile') }}"
                         class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5 text-gray-400">
@@ -67,7 +75,7 @@
                         </svg>
                         <span>Edit Profile</span>
                     </a>
-                    <a href="./change-password.html"
+                    <a href="{{ route('edit-password') }}"
                         class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5 text-gray-400">
