@@ -23,8 +23,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected Routes
 Route::middleware(CustomAuth::class)->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
+    Route::post('/edit-profile', [ProfileController::class, 'update'])->name('update-profile');
+
     Route::get('/edit-password', [ProfileController::class, 'edit_password'])->name('edit-password');
+    Route::post('/edit-password', [ProfileController::class, 'update_password']);
 
     Route::resource('categories', CategoryController::class);
     Route::resource('authors', AuthorController::class);
