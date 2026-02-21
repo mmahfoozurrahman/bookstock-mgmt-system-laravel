@@ -11,34 +11,23 @@
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
                 <div class="p-6">
-                    <form class="p-6 space-y-6">
+                    <form class="space-y-6" action="{{ route('categories.store') }}" method="POST">
+                        @csrf
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Category Name <span
                                     class="text-red-500">*</span></label>
-                            <input type="text" id="name" name="name" required
+                            <input type="text" id="name" name="name" value="{{ old('name') }}"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                                 placeholder="Enter category name" />
-                        </div>
-
-                        <div>
-                            <label for="description"
-                                class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea id="description" name="description" rows="4"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none"
-                                placeholder="Enter category description"></textarea>
-                        </div>
-
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                            <select id="status" name="status"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
+                            @error('name')
+                                <p class="text-red-500 text-sm mt-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
 
                         <div class="flex items-center justify-end space-x-4 pt-4">
-                            <a href="./category-list.html"
+                            <a href="{{ route('categories.index') }}"
                                 class="px-6 py-3 border border-gray-300 rounded-lg text-gray-600 hover:text-gray-800 hover:border-gray-400 transition-all duration-200">
                                 Cancel
                             </a>
