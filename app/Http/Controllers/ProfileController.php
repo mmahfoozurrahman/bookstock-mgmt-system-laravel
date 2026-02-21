@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -52,5 +53,38 @@ class ProfileController extends Controller
             'title' => 'Edit Password',
             'description' => 'Update your password'
         ]);
+    }
+
+    public function update_password(Request $request)
+    {
+        $user = auth()->user();
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        // Get current user
+        $user = DB::table('users')
+            ->where('id', $user->id)
+            ->first();
+
+        // Check old password
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors([
+                'current_password' => 'Current password is incorrect'
+            ]);
+        }
+
+        // Update new password
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update([
+                'password' => Hash::make($request->password),
+                'updated_at' => now(),
+            ]);
+
+        return redirect()
+            ->route('edit-password')
+            ->with('success', 'Password updated successfully!');
     }
 }

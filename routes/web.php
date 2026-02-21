@@ -28,7 +28,7 @@ Route::middleware(CustomAuth::class)->group(function () {
     Route::post('/edit-profile', [ProfileController::class, 'update'])->name('update-profile');
 
     Route::get('/edit-password', [ProfileController::class, 'edit_password'])->name('edit-password');
-    Route::post('/edit-password', [ProfileController::class, 'update_password']);
+    Route::post('/edit-password', [ProfileController::class, 'update_password'])->name('update-password');
 
     Route::resource('categories', CategoryController::class);
     Route::resource('authors', AuthorController::class);

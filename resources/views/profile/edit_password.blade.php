@@ -8,7 +8,11 @@
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
                 <div class="p-6">
-                    <form class="space-y-6">
+                    <form class="space-y-6" method="POST" action="{{ route('update-password') }}">
+                        @csrf
+                        <div class="my-1">
+                            @include('flash.session')
+                        </div>
                         <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Current Password</label>
@@ -22,8 +26,11 @@
                                     </div>
                                     <input type="password"
                                         class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
-                                        placeholder="••••••••" />
+                                        placeholder="••••••••" name="current_password" />
                                 </div>
+                                @error('current_password')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div>
@@ -38,8 +45,11 @@
                                     </div>
                                     <input type="password"
                                         class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
-                                        placeholder="••••••••" />
+                                        placeholder="••••••••" name="password" />
                                 </div>
+                                @error('password')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div>
@@ -54,8 +64,11 @@
                                     </div>
                                     <input type="password"
                                         class="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
-                                        placeholder="••••••••" />
+                                        placeholder="••••••••" name="password_confirmation" />
                                 </div>
+                                @error('password_confirmation')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
