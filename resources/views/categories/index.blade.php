@@ -30,7 +30,7 @@
                                 <td class="px-6 py-4">
                                     <div class="font-medium text-gray-800">{{ $category->name }}</div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">{{ 0 }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">{{ $category->books_count }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center space-x-2">
                                         <a href="{{ route('categories.edit', $category->id) }}"

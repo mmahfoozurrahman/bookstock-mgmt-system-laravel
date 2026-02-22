@@ -101,7 +101,7 @@ class BookController extends Controller
             'categories' => $categories,
             'authors' => $authors,
             'title' => 'Edit Book',
-            'description' => 'Edit Book'
+            'description' => 'Edit the Book'
         ]);
     }
 

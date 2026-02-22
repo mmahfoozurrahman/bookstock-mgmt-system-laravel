@@ -11,8 +11,15 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = DB::table('categories')
-            ->orderBy('id', 'desc')
+            ->leftJoin('books', 'categories.id', '=', 'books.category_id')
+            ->select(
+                'categories.*',
+                DB::raw('COUNT(books.id) as books_count')
+            )
+            ->groupBy('categories.id')
+            ->orderBy('categories.id', 'desc')
             ->paginate(10);
+        //dd($categories);
 
         return view('categories.index', [
             'categories' => $categories,

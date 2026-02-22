@@ -32,7 +32,7 @@ class AuthorController extends Controller
     {
         return view('authors.create', [
             'title' => 'Create Author',
-            'description' => 'Create Author',
+            'description' => 'Add new Author',
         ]);
     }
 
@@ -67,7 +67,7 @@ class AuthorController extends Controller
         return view('authors.edit', [
             'author' => $author,
             'title' => 'Edit Author',
-            'description' => 'Edit Author',
+            'description' => 'Edit the Author',
         ]);
     }
 
