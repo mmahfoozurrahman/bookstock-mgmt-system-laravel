@@ -11,7 +11,9 @@
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
                 <div class="p-6">
-                    <form class="p-6 space-y-6">
+                    <form class="p-6 space-y-6" action="{{ route('books.store') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
                         <!-- Book Cover Upload -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Book Cover</label>
@@ -27,12 +29,12 @@
                                         </svg>
                                     </div>
                                 </div>
-
-                                <!-- Upload Area -->
+                                {{-- Upload Zone --}}
                                 <div class="flex-1">
                                     <div id="uploadZone" class="upload-zone rounded-lg p-6 text-center cursor-pointer"
-                                        onclick="document.getElementById('coverImage').click()">
-                                        <input type="file" id="coverImage" name="coverImage" accept="image/*" class="hidden"
+                                        onclick="document.getElementById('cover_image').click()">
+                                        <input type="file" id="cover_image" name="cover_image"
+                                            accept="image/jpeg,image/png,image/jpg" class="hidden"
                                             onchange="previewImage(event)" />
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
@@ -44,63 +46,102 @@
                                             <span class="font-medium text-indigo-600">Click to upload</span> or drag and
                                             drop
                                         </p>
-                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                                        <p class="text-xs text-gray-500">PNG, JPG up to 2MB</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-2">Recommended: 300x400px ratio</p>
+                                    {{-- Validation Error for cover_image --}}
+                                    @error('cover_image')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Book Title <span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" id="title" name="title" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Book Title <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="title" name="title" value="{{ old('title') }}"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors @error('title') border-red-400 @enderror"
                                     placeholder="Enter book title" />
+                                @error('title')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="isbn" class="block text-sm font-medium text-gray-700 mb-2">ISBN <span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" id="isbn" name="isbn" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                                <label for="isbn" class="block text-sm font-medium text-gray-700 mb-2">
+                                    ISBN <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="isbn" name="isbn" value="{{ old('isbn') }}"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors @error('isbn') border-red-400 @enderror"
                                     placeholder="978-0-7475-3269-9" />
+                                @error('isbn')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="author" class="block text-sm font-medium text-gray-700 mb-2">Author <span
-                                        class="text-red-500">*</span></label>
-                                <select id="author" name="author" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                                <label for="author_id" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Author <span class="text-red-500">*</span>
+                                </label>
+                                <select id="author_id" name="author_id"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors @error('author_id') border-red-400 @enderror">
                                     <option value="">Select an author</option>
-                                    <option value="1">J.K. Rowling</option>
-                                    <option value="2">Stephen King</option>
-                                    <option value="3">George Orwell</option>
+                                    @foreach($authors as $author)
+                                        <option value="{{ $author->id }}" @selected(old('author_id') == $author->id)>
+                                            {{ $author->name }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
+                                @error('author_id')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category <span
-                                        class="text-red-500">*</span></label>
-                                <select id="category" name="category" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors">
+                                <label for="category_id" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Category <span class="text-red-500">*</span>
+                                </label>
+                                <select id="category_id" name="category_id"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors @error('category_id') border-red-400 @enderror">
                                     <option value="">Select a category</option>
-                                    <option value="1">Fiction</option>
-                                    <option value="2">Science</option>
-                                    <option value="3">History</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+
                                 </select>
+                                @error('category_id')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
-                        <div>
+                        <div class="mb-6">
+                            <label for="published_at" class="block text-sm font-medium text-gray-700 mb-2">Published
+                                Date</label>
+                            <input type="date" id="published_at" name="published_at" value="{{ old('published_at') }}"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
+                            @error('published_at')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- ===== Description ===== --}}
+                        <div class="mb-8">
                             <label for="description"
                                 class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                             <textarea id="description" name="description" rows="4"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none"
-                                placeholder="Enter book description"></textarea>
+                                placeholder="Enter book description">{{ old('description') }}</textarea>
+                            @error('description')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
@@ -114,7 +155,7 @@
                         </div>
 
                         <div class="flex items-center justify-end space-x-4 pt-4">
-                            <a href="./book-list.html"
+                            <a href="{{ route('books.index') }}"
                                 class="px-6 py-3 border border-gray-300 rounded-lg text-gray-600 hover:text-gray-800 hover:border-gray-400 transition-all duration-200">
                                 Cancel
                             </a>
@@ -129,4 +170,75 @@
         </div>
     </div>
 
+@endsection
+
+@section('styles')
+    <style>
+        .upload-zone {
+            border: 2px dashed #d1d5db;
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+    </style>
+@endsection
+
+@section('scripts')
+    <script>
+        // Dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('userDropdown');
+            const button = document.getElementById('userMenuButton');
+            if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Image preview functionality
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.innerHTML = '<img src="' + e.target.result + '" alt="Preview" class="w-full h-full object-cover" />';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Drag and drop functionality
+        const uploadZone = document.getElementById('uploadZone');
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                document.getElementById('cover_image').files = e.dataTransfer.files;
+                const event = { target: { files: [file] } };
+
+                previewImage(event);
+            }
+        });
+    </script>
 @endsection

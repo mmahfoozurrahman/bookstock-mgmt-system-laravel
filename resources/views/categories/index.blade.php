@@ -4,6 +4,9 @@
 
     <!-- Content -->
     <div class="flex-1 p-6 lg:p-8">
+        <div class="mb-2">
+            @include('flash.session')
+        </div>
         <div class="bg-white rounded-xl shadow overflow-hidden">
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
@@ -21,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @foreach($categories as $category)
+                        @forelse($categories as $category)
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $category->id }}</td>
                                 <td class="px-6 py-4">
@@ -51,14 +54,33 @@
                                         </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-16 text-center text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-3 text-gray-300"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.125 1.125 0 001.591 0l4.318-4.318a1.125 1.125 0 000-1.591l-9.581-9.581A2.25 2.25 0 009.568 3zM6 6a1 1 0 112 0 1 1 0 01-2 0z" />
+                                    </svg>
+
+                                    <p class="font-medium">No categories found</p>
+                                    <p class="text-sm mt-1">Get started by <a href="{{ route('categories.create') }}"
+                                            class="text-indigo-600 hover:underline">adding your first category</a>.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
-            <!-- Pagination -->
-            <div class="px-6 py-4 bg-gray-50 border-t">
+            @php
+                if ($categories->hasPages()) {
+            @endphp
+            <div class="py-2 px-4 bg-gray-50 border-t">
                 {{ $categories->links() }}
             </div>
+            @php
+                }
+            @endphp
 
         </div>
     </div>

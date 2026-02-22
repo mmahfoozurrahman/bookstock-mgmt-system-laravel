@@ -4,6 +4,9 @@
 
     <!-- Content -->
     <div class="flex-1 p-6 lg:p-8">
+        <div class="mb-2">
+            @include('flash.session')
+        </div>
         <div class="bg-white rounded-xl shadow overflow-hidden">
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
@@ -25,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @foreach ($authors as $author)
+                        @forelse ($authors as $author)
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $author->id }}</td>
                                 <td class="px-6 py-4">
@@ -60,12 +63,34 @@
                                         </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-16 text-center text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-3 text-gray-300"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                    </svg>
+
+
+                                    <p class="font-medium">No authors found</p>
+                                    <p class="text-sm mt-1">Get started by <a href="{{ route('authors.create') }}"
+                                            class="text-indigo-600 hover:underline">adding your first author</a>.</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+            </div>
+            @php
+                if ($authors->hasPages()) {
+            @endphp
+            <div class="py-2 px-4 bg-gray-50 border-t">
                 {{ $authors->links() }}
             </div>
+            @php
+                }
+            @endphp
         </div>
-    </div>
 
 @endsection

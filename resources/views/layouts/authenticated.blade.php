@@ -59,6 +59,7 @@
             transform: translateY(0);
         }
     </style>
+    @yield('styles')
 </head>
 
 <body class="bg-gray-50 min-h-screen">
@@ -71,23 +72,24 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        // Dropdown functionality
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('userDropdown');
+            const button = document.getElementById('userMenuButton');
+            if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    </script>
+    @yield('scripts')
+
 </body>
 
 </html>
-
-<script>
-    // Dropdown functionality
-    function toggleDropdown() {
-        const dropdown = document.getElementById('userDropdown');
-        dropdown.classList.toggle('show');
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function (event) {
-        const dropdown = document.getElementById('userDropdown');
-        const button = document.getElementById('userMenuButton');
-        if (!dropdown.contains(event.target) && !button.contains(event.target)) {
-            dropdown.classList.remove('show');
-        }
-    });
-</script>
