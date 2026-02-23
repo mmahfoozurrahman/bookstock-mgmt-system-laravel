@@ -4,15 +4,15 @@
 
     <!-- Content -->
     <div class="flex-1 p-6 lg:p-8">
+        <div class="my-1">
+            @include('flash.session')
+        </div>
         <div class="bg-white rounded-xl shadow overflow-hidden">
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2"></div>
             <div class="overflow-x-auto">
                 <div class="p-6">
                     <form class="space-y-6" method="POST" action="{{ route('update-password') }}">
                         @csrf
-                        <div class="my-1">
-                            @include('flash.session')
-                        </div>
                         <div class="grid grid-cols-1 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Current Password</label>
