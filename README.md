@@ -7,8 +7,8 @@ A robust book stock management system built with **Laravel 12**, **Blade Templat
 - **Profile Management**: Update user profile and change passwords.
 - **Author Management**: Full CRUD operations for authors.
 - **Category Management**: Full CRUD operations for categories.
-- **Book Management**: Full CRUD operations for books.
-- **Dashboard**: Centralized system overview.
+- **Book Management**: Full CRUD operations for books with cover image upload.
+- **Cascading Deletes**: Automatic deletion of related books when an author or category is removed.
 
 ## Tech Stack
 - **Framework**: Laravel 12

@@ -34,7 +34,7 @@ class BookController extends Controller
     public function create()
     {
         $categories = DB::table('categories')->orderBy('name')->get();
-        $authors = DB::table('authors')->orderBy('name')->get();
+        $authors = DB::table('authors')->where('status', 'active')->orderBy('name')->get();
 
         return view('books.create', [
             'title' => 'Create Book',
@@ -67,7 +67,7 @@ class BookController extends Controller
             $coverPath = $request->file('cover_image')->store('covers', 'public');
         }
 
-        // --- Insert into DB using Query Builder ---
+        // --- Insert into DB ---
         DB::table('books')->insert([
             'title' => $request->title,
             'isbn' => $request->isbn,
