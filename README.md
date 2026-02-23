@@ -19,6 +19,10 @@ A robust book stock management system built with **Laravel 12**, **Blade Templat
 ## Setup Procedures
 1. **Dependencies**: `composer install` & `npm install`
 2. **Environment**: `cp .env.example .env` & `php artisan key:generate`
-3. **Database**: Configure `.env` and run `php artisan migrate`
-4. **Assets**: `npm run build`
+3. **Database & Storage**: Configure `.env`, run `php artisan migrate`, and run **`php artisan storage:link`** (required for book cover images).
+4. **Assets**: `npm run dev` or `npm run build`
 5. **Run**: `php artisan serve`
+
+## Initial Steps
+1. **Create Account**: After setting up the project, navigate to the **Signup** page to create your account first.
+2. **Manage Content**: Log in to access the dashboard where you can create, edit, and delete **Categories**, **Authors**, and **Books**.
